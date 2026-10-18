@@ -126,7 +126,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // FORM SUBMISSION
     // =====================================
 
-    const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbz_eaPyD3Ak-wZe0-3V7fp60uQOGsBaT35r12sk0eengErt9Q_tTXW5vk4Smb-JwLBu/exec";
+    const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzIlozq47bRIgX3S_FSL69NvfyrEIW29dc4AZeqMy8O2yg1T8AWdu9bPZCwvx7Si1cf/exec";
     form.addEventListener("submit", async (event) => {
     event.preventDefault();
 
