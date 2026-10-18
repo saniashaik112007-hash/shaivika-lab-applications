@@ -241,7 +241,25 @@ document.addEventListener("DOMContentLoaded", () => {
         // current HTML form without silently dropping newer fields.
         const application = Object.fromEntries(new FormData(form));
         application.phone = phone;
+        application.phoneLocation = [application.phone, application.location]
+            .filter(Boolean)
+            .join(" / ");
         application.declaration = form.elements.declaration.checked ? "Accepted" : "";
+
+        // The deployed Apps Script expects these canonical fields. Preserve
+        // every original form value while deriving the backend fields from the
+        // existing controls, so the UI and spreadsheet schema do not change.
+        application.occupation = [
+            application.college,
+            application.education,
+            application.degree
+        ].filter(Boolean).join(" | ");
+        application.skills = [
+            application.projectStatus,
+            application.buildingInterest,
+            application.projectLink
+        ].filter(Boolean).join(" | ");
+
         application.resumeFile = {
             name: resume.name,
             mimeType: resume.type || "application/pdf",
