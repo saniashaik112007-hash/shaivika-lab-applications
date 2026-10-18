@@ -145,7 +145,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     // Validate phone number
-    const phoneInput = document.getElementById("phoneLocation");
+    const phoneInput = document.getElementById("phone");
     const phone = phoneInput.value.trim();
     const phoneDigits = phone.replace(/\D/g, "");
 
@@ -237,44 +237,20 @@ document.addEventListener("DOMContentLoaded", () => {
             reader.readAsDataURL(resume);
         });
 
-        // Collect application details
-        const application = {
-            name: document.getElementById("name").value.trim(),
-
-            phoneLocation: phone,
-
-            email: document.getElementById("email").value.trim(),
-
-            occupation: document.getElementById("occupation").value,
-
-            role: document.getElementById("role").value,
-
-            skills: document.getElementById("skills").value.trim(),
-
-            experienceLevel:
-                document.getElementById("experienceLevel").value,
-
-            github: document.getElementById("github").value.trim(),
-
-            linkedin: document.getElementById("linkedin").value.trim(),
-
-            portfolio: document.getElementById("portfolio").value.trim(),
-
-            relevantExperience:
-                document.getElementById("relevantExperience").value.trim(),
-
-            resumeFile: {
-                name: resume.name,
-                mimeType: resume.type,
-                base64: base64
-            },
-
-            submittedAt: new Date().toISOString(),
-
-            company: "Shaivika Groups",
-
-            division: "Shaivika Labs"
+        // Collect every named form field so the payload stays aligned with the
+        // current HTML form without silently dropping newer fields.
+        const application = Object.fromEntries(new FormData(form));
+        application.phone = phone;
+        application.declaration = form.elements.declaration.checked ? "Accepted" : "";
+        application.resumeFile = {
+            name: resume.name,
+            mimeType: resume.type || "application/pdf",
+            size: resume.size,
+            base64
         };
+        application.submittedAt = new Date().toISOString();
+        application.company = "Shaivika Groups";
+        application.division = "Shaivika Labs";
 
         if (buttonText) {
             buttonText.textContent = "Submitting Application...";
@@ -298,9 +274,16 @@ document.addEventListener("DOMContentLoaded", () => {
     clearTimeout(timeoutId);
 }
 
-        const result = await response.json();
+        const responseText = await response.text();
+        let result;
 
-        if (!result.success) {
+        try {
+            result = JSON.parse(responseText);
+        } catch {
+            throw new Error("The application service returned an invalid response.");
+        }
+
+        if (!response.ok || !result.success) {
             throw new Error(
                 result.message || "Application submission failed."
             );
