@@ -126,7 +126,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // FORM SUBMISSION
     // =====================================
 
-    const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbz_eaPyD3Ak-wZe0-3V7fp60uQOGsBaT35r12sk0eengErt9Q_tTXW5vk4Smb-JwLBu/exec";
+    const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzDyWYopApE_zcB2RKolVclltsiGj5EDo8u6P52mOKhWq2DBGpqTb869uXZP6jKmxwb/exec";
     form.addEventListener("submit", async (event) => {
     event.preventDefault();
 
@@ -145,7 +145,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     // Validate phone number
-    const phoneInput = document.getElementById("phoneLocation");
+    const phoneInput = document.getElementById("phone");
     const phone = phoneInput.value.trim();
     const phoneDigits = phone.replace(/\D/g, "");
 
@@ -238,43 +238,71 @@ document.addEventListener("DOMContentLoaded", () => {
         });
 
         // Collect application details
-        const application = {
-            name: document.getElementById("name").value.trim(),
+const application = {
+    name: document.getElementById("name").value.trim(),
 
-            phoneLocation: phone,
+    phoneLocation:
+        document.getElementById("phone").value.trim() +
+        " / " +
+        document.getElementById("location").value.trim(),
 
-            email: document.getElementById("email").value.trim(),
+    email: document.getElementById("email").value.trim(),
 
-            occupation: document.getElementById("occupation").value,
+    occupation:
+        document.getElementById("college").value.trim() +
+        " | " +
+        document.getElementById("education").value +
+        " | " +
+        document.getElementById("degree").value.trim(),
 
-            role: document.getElementById("role").value,
+    role: document.getElementById("role").value,
 
-            skills: document.getElementById("skills").value.trim(),
+    skills:
+        "Project Status: " +
+        document.getElementById("projectStatus").value +
+        " | GitHub: " +
+        document.getElementById("github").value.trim() +
+        " | Best Project: " +
+        document.getElementById("projectLink").value.trim() +
+        " | Motivation: " +
+        document.getElementById("motivation").value.trim() +
+        " | Building Interest: " +
+        document.getElementById("buildingInterest").value.trim() +
+        " | Weekly Availability: " +
+        document.getElementById("availability").value +
+        " | Start Date: " +
+        document.getElementById("startDate").value +
+        " | Teamwork: " +
+        document.getElementById("teamwork").value,
 
-            experienceLevel:
-                document.getElementById("experienceLevel").value,
+    experienceLevel:
+        document.getElementById("experienceLevel").value,
 
-            github: document.getElementById("github").value.trim(),
+    github: document.getElementById("github").value.trim(),
 
-            linkedin: document.getElementById("linkedin").value.trim(),
+    linkedin: document.getElementById("linkedin").value.trim(),
 
-            portfolio: document.getElementById("portfolio").value.trim(),
+    portfolio: document.getElementById("portfolio").value.trim(),
 
-            relevantExperience:
-                document.getElementById("relevantExperience").value.trim(),
+    relevantExperience:
+        document.getElementById("relevantExperience").value.trim() +
+        "\n\nWhy Join Shaivika Labs:\n" +
+        document.getElementById("motivation").value.trim() +
+        "\n\nInterested in Building:\n" +
+        document.getElementById("buildingInterest").value.trim(),
 
-            resumeFile: {
-                name: resume.name,
-                mimeType: resume.type,
-                base64: base64
-            },
+    resumeFile: {
+        name: resume.name,
+        mimeType: resume.type,
+        base64: base64
+    },
 
-            submittedAt: new Date().toISOString(),
+    submittedAt: new Date().toISOString(),
 
-            company: "Shaivika Groups",
+    company: "Shaivika Groups",
 
-            division: "Shaivika Labs"
-        };
+    division: "Shaivika Labs"
+};
 
         if (buttonText) {
             buttonText.textContent = "Submitting Application...";
